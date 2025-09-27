@@ -2,7 +2,6 @@ import os
 from google import genai
 from google.genai import types
 from dotenv import load_dotenv
-# from database.config import Config
 
 load_dotenv()
 

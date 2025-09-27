@@ -33,7 +33,7 @@ def register_routes(app):
                 except Exception as e:
                     print(f'Error analyzing sentiment: {e}')
                     # Fallback to neutral sentiment if analysis fails
-                    sentiment_results = [{'label': 'NEUTRAL'} for _ in answers]
+                    sentiment_results = [{'label': 'NEUTRAL', 'score': 0.5} for _ in answers]
 
             # Sentiment analysis for each response
             sentiment_index = 0
@@ -42,17 +42,23 @@ def register_routes(app):
                     if sentiment_index < len(sentiment_results):
                         sentiment_result = sentiment_results[sentiment_index]
                         response['SentiAnalysis'] = {
-                            'label': sentiment_result.get('label', 'NEUTRAL')
+                            'label': sentiment_result.get('label', 'NEUTRAL'),
+                            'score': round(sentiment_result.get('score', 0.5), 3),
+                            'confidence': round(sentiment_result.get('score', 0.5) * 100, 1)
                         }
                         sentiment_index += 1
                     else:
                         response['SentiAnalysis'] = {
-                            'label': 'NEUTRAL'
+                            'label': 'NEUTRAL',
+                            'score': 0.5,
+                            'confidence': 50.0
                         }
                 else:
                     # For empty answers
                     response['SentiAnalysis'] = {
-                        'label': 'NEUTRAL'
+                        'label': 'NEUTRAL',
+                        'score': 0.5,
+                        'confidence': 50.0
                     }
             
             # Save to MongoDB
@@ -82,20 +88,6 @@ def register_routes(app):
         except Exception as error:
             print(f'Error saving survey: {error}')
             return jsonify({'success': False, 'error': str(error)}), 500
-
-    # Serve static files
-    @app.route('/')
-    @app.route('/survey')
-    def index():
-        return render_template('index.html')
-
-    @app.route('/analytics')
-    def serve_analytics():
-        return render_template('analytics.html')
-
-    @app.route('/<path:filename>')
-    def serve_static(filename):
-        return send_from_directory('.', filename)
 
     # API endpoints
     @app.route('/api/questions')
@@ -144,7 +136,7 @@ def register_routes(app):
                 
         except Exception as e:
             return jsonify({'error': str(e)}), 500
-
+    
     @app.route('/api/analytics/data')
     def get_analytics_data():
         try:
@@ -300,3 +292,4 @@ def register_routes(app):
                     'questionSentimentData': {}
                 }
             }), 500
+        
