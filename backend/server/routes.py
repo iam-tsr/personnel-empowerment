@@ -292,4 +292,10 @@ def register_routes(app):
                     'questionSentimentData': {}
                 }
             }), 500
-        
+    
+    @app.route('/api/health')
+    def health_check():
+        """Health check endpoint"""
+        return jsonify({
+            'status': 'healthy',
+        }), 200

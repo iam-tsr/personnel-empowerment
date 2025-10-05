@@ -1,5 +1,5 @@
 # Environmental files
-/venv
+venv/
 .venv/
 .env
 
@@ -8,7 +8,7 @@ __pycache__/
 .ipynb_checkpoints/
 
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 
