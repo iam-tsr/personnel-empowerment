@@ -10,7 +10,7 @@ A comprehensive AI-powered employee engagement platform that leverages machine l
 ## 🚀 Features
 
 - **AI-Generated Survey Questions**: Automatically generate contextual employee engagement questions using Google's Gemini AI
-- **Real-time Sentiment Analysis**: Analyze employee feedback using advanced NLP models (BertTweet)
+- **Real-time Sentiment Analysis**: Analyze employee feedback using advanced language model (Finetuned DistilBERT - [REF](https://github.com/iam-tsr/distilbert-finetuned-youtube_sentiment_analysis))
 - **Interactive Dashboard**: Web-based interface for survey management and analytics
 - **MongoDB Integration**: Secure data storage and retrieval
 - **Responsive Design**: Mobile-friendly frontend interface
@@ -33,7 +33,7 @@ A comprehensive AI-powered employee engagement platform that leverages machine l
 - **Responsive Design**
 
 ### AI/ML Models
-- **finiteautomata/bertweet-base-sentiment-analysis** - Sentiment analysis
+- **iam-tsr/distilbert-finetuned-sentiment-analysis** - Sentiment analysis
 - **Google Gemini 2.0 Flash Lite** - Question generation
 
 ## ⚡ Quick Start
@@ -48,31 +48,21 @@ A comprehensive AI-powered employee engagement platform that leverages machine l
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/iam-tsr/personnel-empowerment.git
-   cd personnel-empowerment
+   $ git clone https://github.com/iam-tsr/personnel-empowerment.git
+   $ cd personnel-empowerment
    ```
 
-2. **Create virtual environment**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Environment Configuration**
+2. **Environment Configuration**
    Create a `.env` file in the root directory:
    ```env
    GENAI_API_KEY=your_google_ai_api_key
    MONGODB_URI=your_mongodb_connection_string
+   MONGODB_DATABASE=personnel_empowerment
    ```
 
-5. **Run the application**
+3. **Docker run**
    ```bash
-   flask run
+   $ docker compose up --build
    ```
 
 ## 📊 API Endpoints
@@ -96,7 +86,7 @@ The platform uses Google's Gemini AI to generate contextual employee engagement 
 
 ### Sentiment Analysis
 Real-time sentiment analysis of employee responses using:
-- **Model**: `finiteautomata/bertweet-base-sentiment-analysis`
+- **Model**: `iam-tsr/distilbert-finetuned-sentiment-analysis`
 - **Capabilities**: Positive, Negative, Neutral sentiment classification
 - **Real-time Processing**: Immediate feedback on survey responses
 
@@ -116,7 +106,7 @@ from backend.services.sentiment_analysis import get_sentiment
 
 # Analyze sentiment of feedback
 result = get_sentiment("This is a great place to work!")
-# Returns: [{'label': 'POSITIVE', 'score': 0.9998}]
+# Returns: {'label': 'POSITIVE'}
 ```
 
 ## 🔒 Security & Privacy
